@@ -37,12 +37,11 @@ dependencies = [
 ]
 
 [project.urls]
-# Replace OWNER with the GitHub account or organisation hosting the repository.
-Homepage = "https://github.com/OWNER/ScientificLab"
-Documentation = "https://OWNER.github.io/ScientificLab/"
-Source = "https://github.com/OWNER/ScientificLab"
-Issues = "https://github.com/OWNER/ScientificLab/issues"
-Changelog = "https://github.com/OWNER/ScientificLab/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/Mudiambat13/ScientificLab"
+Documentation = "https://mudiambat13.github.io/ScientificLab/"
+Source = "https://github.com/Mudiambat13/ScientificLab"
+Issues = "https://github.com/Mudiambat13/ScientificLab/issues"
+Changelog = "https://github.com/Mudiambat13/ScientificLab/blob/main/CHANGELOG.md"
 
 [project.scripts]
 scientificlab-gui = "scientificlab.gui.server:main"
@@ -107,7 +106,7 @@ module = ["sympy", "sympy.*", "scipy", "scipy.*", "matplotlib", "matplotlib.*", 
 ignore_missing_imports = true
 
 # PyPI does not resolve relative image paths: rewrite docs/assets/... to absolute
-# URLs at build time. Replace OWNER like the other URLs (see docs/releasing.md).
+# URLs at build time for PyPI's rendered README.
 [tool.hatch.metadata.hooks.fancy-pypi-readme]
 content-type = "text/markdown"
 
@@ -116,4 +115,4 @@ path = "README.md"
 
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
 pattern = '(?<=["(])docs/assets/'
-replacement = 'https://raw.githubusercontent.com/OWNER/ScientificLab/main/docs/assets/'
+replacement = 'https://raw.githubusercontent.com/Mudiambat13/ScientificLab/main/docs/assets/'

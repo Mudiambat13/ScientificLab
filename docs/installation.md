@@ -10,7 +10,7 @@ pip install scientificlab
 From a source checkout (development):
 
 ```bash
-git clone https://github.com/OWNER/ScientificLab.git
+git clone https://github.com/Mudiambat13/ScientificLab.git
 cd ScientificLab
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
