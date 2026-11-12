@@ -2,26 +2,104 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  test:
+  quality:
+    name: Lint and types
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - run: ruff check . && ruff format --check .
+      - run: mypy
+
+  test:
+    name: Tests (Python ${{ matrix.python-version }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest]
         python-version: ["3.11", "3.12", "3.13"]
+        include:
+          - os: windows-latest
+            python-version: "3.13"
+          - os: macos-latest
+            python-version: "3.13"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install
-        run: pip install -e ".[dev]"
-      - name: Lint
-        run: ruff check . && ruff format --check .
-      - name: Type check
-        run: mypy
-      - name: Tests
-        run: pytest --cov=scientificlab --cov-report=term-missing
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - run: pytest --cov=scientificlab --cov-report=term-missing --cov-report=xml
+      - uses: actions/upload-artifact@v4
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
+        with:
+          name: coverage-xml
+          path: coverage.xml
+
+  minimum-dependencies:
+    name: Tests with the oldest supported dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # Versions equal to the lower bounds declared in pyproject.toml.
+      - run: |
+          pip install numpy==1.26.0 scipy==1.11.1 sympy==1.12 matplotlib==3.8.0 pint==0.24.4
+          pip install -e . --no-deps
+          pip install pytest pytest-cov
+      - run: pytest -W ignore
+
+  package:
+    name: Build and install the package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install build twine
+      - run: python -m build
+      - run: twine check dist/*
+      - name: Install the wheel in a clean environment and smoke-test it
+        run: |
+          python -m venv /tmp/clean
+          /tmp/clean/bin/pip install dist/*.whl
+          cd /tmp
+          /tmp/clean/bin/python -I -c "import scientificlab, scientificlab.gui; print(scientificlab.__version__)"
+          /tmp/clean/bin/scientificlab-gui --help
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  docs:
+    name: Build documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -e ".[docs]"
+      - run: mkdocs build --strict

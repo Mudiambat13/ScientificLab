@@ -1,5 +1,5 @@
 """Physics: mechanics, electricity, thermodynamics, optics, waves, fluids.
 
-Implemented so far: ``mechanics`` (Phase 1). The other subpackages are reserved
-for Phase 3 and contain no code yet.
+All six subpackages are implemented (Phases 1 and 3). Functions take and
+return plain floats in SI units, documented in each docstring.
 """

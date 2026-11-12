@@ -1,19 +1,19 @@
 [build-system]
-requires = ["hatchling>=1.27"]
+requires = ["hatchling>=1.27", "hatch-fancy-pypi-readme>=24.1"]
 build-backend = "hatchling.build"
 
 [project]
 name = "scientificlab"
-version = "0.1.0"
+version = "0.7.0"
 description = "ScientificLab is an open-source Python library for mathematical computation, equation solving, numerical analysis, physics calculations, scientific simulations, and data visualization."
-readme = "README.md"
+dynamic = ["readme"]
 requires-python = ">=3.11"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "ScientificLab contributors" }]
 keywords = ["mathematics", "physics", "scientific-computing", "numerical-analysis", "simulation"]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Education",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
@@ -23,14 +23,29 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Mathematics",
     "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering :: Visualization",
     "Typing :: Typed",
 ]
-# Only what the implemented features need. SciPy, Matplotlib, Pint, Pandas and
-# Pydantic are added in the phase that first uses them (see CHANGELOG / roadmap).
+# Only what the implemented features need. Pandas and Pydantic are not used yet
+# and are added only if a feature requires them (see CHANGELOG / roadmap).
 dependencies = [
     "numpy>=1.26",
+    "scipy>=1.11",
     "sympy>=1.12",
+    "matplotlib>=3.8",
+    "pint>=0.24.4",
 ]
+
+[project.urls]
+# Replace OWNER with the GitHub account or organisation hosting the repository.
+Homepage = "https://github.com/OWNER/ScientificLab"
+Documentation = "https://OWNER.github.io/ScientificLab/"
+Source = "https://github.com/OWNER/ScientificLab"
+Issues = "https://github.com/OWNER/ScientificLab/issues"
+Changelog = "https://github.com/OWNER/ScientificLab/blob/main/CHANGELOG.md"
+
+[project.scripts]
+scientificlab-gui = "scientificlab.gui.server:main"
 
 [project.optional-dependencies]
 dev = [
@@ -39,9 +54,28 @@ dev = [
     "ruff>=0.5",
     "mypy>=1.10",
 ]
+docs = [
+    "mkdocs>=1.6",
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.26",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/scientificlab"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/tests",
+    "/examples",
+    "/docs",
+    "/README.md",
+    "/LICENSE",
+    "/CHANGELOG.md",
+    "/CONTRIBUTING.md",
+    "/SECURITY.md",
+    "/mkdocs.yml",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -61,6 +95,7 @@ convention = "google"
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["D"]
 "examples/**" = ["D"]
+"scripts/**" = ["D"]
 
 [tool.mypy]
 python_version = "3.11"
@@ -68,5 +103,17 @@ strict = true
 files = ["src/scientificlab"]
 
 [[tool.mypy.overrides]]
-module = ["sympy", "sympy.*"]
+module = ["sympy", "sympy.*", "scipy", "scipy.*", "matplotlib", "matplotlib.*", "pint", "pint.*"]
 ignore_missing_imports = true
+
+# PyPI does not resolve relative image paths: rewrite docs/assets/... to absolute
+# URLs at build time. Replace OWNER like the other URLs (see docs/releasing.md).
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = '(?<=["(])docs/assets/'
+replacement = 'https://raw.githubusercontent.com/OWNER/ScientificLab/main/docs/assets/'

@@ -10,7 +10,9 @@ from scientificlab.mathematics.algebra.equations import (
 from scientificlab.mathematics.algebra.expressions import (
     expand_expression,
     factor_expression,
+    parse_equation,
     parse_expression,
+    parse_symbol,
     simplify_expression,
 )
 from scientificlab.mathematics.algebra.polynomials import (
@@ -27,7 +29,9 @@ __all__ = [
     "SystemSolution",
     "expand_expression",
     "factor_expression",
+    "parse_equation",
     "parse_expression",
+    "parse_symbol",
     "polynomial_roots",
     "simplify_expression",
     "solve_linear",

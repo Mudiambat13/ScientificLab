@@ -1,0 +1,71 @@
+site_name: ScientificLab
+site_description: Mathematics, physics, units, solvers, simulations and plots in Python.
+repo_url: https://github.com/OWNER/ScientificLab
+repo_name: OWNER/ScientificLab
+strict: true
+theme:
+  name: material
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.snippets:
+      base_path: ["."]
+      check_paths: true
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: false
+            show_root_heading: true
+            show_root_toc_entry: false
+            heading_level: 3
+            members_order: source
+            separate_signature: true
+            show_signature_annotations: true
+            filters: ["!^_"]
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Quick start: quickstart.md
+  - Guide:
+      - Principles: guide/principles.md
+      - Mathematics: guide/mathematics.md
+      - Physics: guide/physics.md
+      - Constants and units: guide/constants-units.md
+      - Equation solver: guide/solver.md
+      - Simulations: guide/simulations.md
+      - Plots: guide/visualization.md
+      - Graphical interface: guide/gui.md
+  - API reference:
+      - Mathematics: reference/mathematics.md
+      - Physics: reference/physics.md
+      - Constants and units: reference/constants-units.md
+      - Solvers: reference/solvers.md
+      - Simulations: reference/simulations.md
+      - Visualization: reference/visualization.md
+      - Exceptions: reference/utils.md
+  - Project:
+      - Contributing: contributing.md
+      - Changelog: changelog.md
+      - Releasing: releasing.md
+      - Security: security.md

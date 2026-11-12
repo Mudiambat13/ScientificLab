@@ -2,7 +2,7 @@ import scientificlab
 
 
 def test_version_is_exposed():
-    assert scientificlab.__version__ == "0.1.0"
+    assert scientificlab.__version__ == "0.7.0"
 
 
 def test_readme_examples_run():

@@ -46,6 +46,17 @@ def parse_expression(expression: str | sp.Expr) -> sp.Expr:
     return parsed
 
 
+def parse_symbol(name: str) -> sp.Symbol:
+    """Return the SymPy symbol called ``name``.
+
+    Raises:
+        ExpressionParseError: If ``name`` is not a plain identifier.
+    """
+    if not isinstance(name, str) or not name.isidentifier():
+        raise ExpressionParseError(f"{name!r} is not a valid variable name.")
+    return sp.Symbol(name)
+
+
 def expand_expression(expression: str | sp.Expr) -> sp.Expr:
     """Expand products and integer powers, e.g. ``(x+1)**2`` -> ``x**2 + 2*x + 1``."""
     return sp.expand(parse_expression(expression))
@@ -63,3 +74,22 @@ def simplify_expression(expression: str | sp.Expr) -> sp.Expr:
     heuristic notion; the output form is not guaranteed canonical.
     """
     return sp.simplify(parse_expression(expression))
+
+
+def parse_equation(text: str) -> sp.Expr:
+    """Turn ``"lhs = rhs"`` into the expression ``lhs - rhs`` (equal to 0).
+
+    A string without ``=`` is read as ``expression = 0``.
+
+    Raises:
+        ExpressionParseError: If the text is empty, uses ``==`` or several
+            ``=``, or a side is not a valid expression.
+    """
+    if not isinstance(text, str) or not text.strip():
+        raise ExpressionParseError("Each equation must be a non-empty string.")
+    if "==" in text or text.count("=") > 1:
+        raise ExpressionParseError(f"Use a single '=' in equation {text!r}.")
+    if "=" in text:
+        left, right = text.split("=")
+        return parse_expression(left) - parse_expression(right)
+    return parse_expression(text)

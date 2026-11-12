@@ -17,7 +17,9 @@ mypy
 pytest
 ```
 
-All three must pass (CI runs them on Python 3.11, 3.12 and 3.13).
+All three must pass (CI runs them on Python 3.11, 3.12 and 3.13, and with the
+oldest supported dependencies). Documentation examples in `docs/` are executed by
+the tests; build the site with `pip install -e ".[docs]" && mkdocs build --strict`.
 
 ## Rules for new features
 

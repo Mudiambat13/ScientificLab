@@ -5,9 +5,8 @@ from dataclasses import dataclass
 
 import sympy as sp
 
-from scientificlab.mathematics.algebra.expressions import parse_expression
+from scientificlab.mathematics.algebra.expressions import parse_equation
 from scientificlab.utils.exceptions import (
-    ExpressionParseError,
     InfiniteSolutionsError,
     InvalidInputError,
     NoSolutionError,
@@ -26,18 +25,6 @@ class SystemSolution:
 
     variables: tuple[str, ...]
     solutions: tuple[dict[str, sp.Expr], ...]
-
-
-def _parse_equation(text: str) -> sp.Expr:
-    """Turn ``"lhs = rhs"`` into ``lhs - rhs``; a bare expression means ``= 0``."""
-    if not isinstance(text, str) or not text.strip():
-        raise ExpressionParseError("Each equation must be a non-empty string.")
-    if "==" in text or text.count("=") > 1:
-        raise ExpressionParseError(f"Use a single '=' in equation {text!r}.")
-    if "=" in text:
-        left, right = text.split("=")
-        return parse_expression(left) - parse_expression(right)
-    return parse_expression(text)
 
 
 def solve_system(
@@ -63,7 +50,7 @@ def solve_system(
     """
     if not equations:
         raise InvalidInputError("At least one equation is required.")
-    expressions = [_parse_equation(e) for e in equations]
+    expressions = [parse_equation(e) for e in equations]
 
     if variables is None:
         symbols = sorted(set().union(*(e.free_symbols for e in expressions)), key=str)
