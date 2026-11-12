@@ -12,8 +12,8 @@ only happen in a major release.
    (`testpypi` for TestPyPI). No API token is stored anywhere.
 2. In the GitHub repository settings, create the environments `pypi` and
    `testpypi` (optionally require a manual approval for `pypi`).
-3. Replace every `OWNER` placeholder (`pyproject.toml`, `mkdocs.yml`, `README.md`,
-   docs) with the real GitHub account or organisation.
+3. Confirm the repository links in `pyproject.toml`, `mkdocs.yml` and the
+   documentation point to the release repository.
 4. Enable GitHub Pages with the source "GitHub Actions" to publish the docs.
 
 ## Each release
@@ -23,6 +23,6 @@ only happen in a major release.
 2. `ruff check . && ruff format --check . && mypy && pytest` must pass.
 3. Optional dry run: run the **Release** workflow manually to publish to TestPyPI,
    then `pip install -i https://test.pypi.org/simple/ scientificlab`.
-4. Tag and push: `git tag v0.7.0 && git push origin v0.6.0`. The workflow checks
+4. Tag and push: `git tag v0.7.0 && git push origin v0.7.0`. The workflow checks
    that the tag equals the package version, runs lint, types and tests, builds,
    publishes to PyPI and creates the GitHub release.

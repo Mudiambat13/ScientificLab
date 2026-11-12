@@ -4,18 +4,17 @@
 
 **Mathematical & Physics Computing Toolkit**
 
-<!-- Replace OWNER with the GitHub account hosting the repository (see docs/releasing.md). -->
 [![PyPI](https://img.shields.io/pypi/v/scientificlab.svg)](https://pypi.org/project/scientificlab/)
 [![Python](https://img.shields.io/pypi/pyversions/scientificlab.svg)](https://pypi.org/project/scientificlab/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Build](https://github.com/OWNER/ScientificLab/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/ScientificLab/actions/workflows/ci.yml)
-[![Docs](https://github.com/OWNER/ScientificLab/actions/workflows/docs.yml/badge.svg)](https://OWNER.github.io/ScientificLab/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/Mudiambat13/ScientificLab/blob/main/LICENSE)
+[![Build](https://github.com/Mudiambat13/ScientificLab/actions/workflows/ci.yml/badge.svg)](https://github.com/Mudiambat13/ScientificLab/actions/workflows/ci.yml)
+[![Docs](https://github.com/Mudiambat13/ScientificLab/actions/workflows/docs.yml/badge.svg)](https://mudiambat13.github.io/ScientificLab/)
 
 > ScientificLab is an open-source Python library for mathematical computation, equation solving, numerical analysis, physics calculations, scientific simulations, and data visualization.
 
 ScientificLab favours **scientific accuracy over feature count**: every function performs a real calculation, validates its inputs, documents its units, sign conventions and limits, and is tested against known reference values. Inconsistent results are never returned silently.
 
-> **Status: v0.7.0 (beta).** All six development phases are complete. While the major version is 0, a minor release may change the public API; every change is listed in the [CHANGELOG](CHANGELOG.md). Documentation: [docs/](docs/index.md) (build it with `mkdocs serve`).
+> **Status: v0.7.0 (beta).** All six development phases are complete. While the major version is 0, a minor release may change the public API; every change is listed in the [CHANGELOG](https://github.com/Mudiambat13/ScientificLab/blob/main/CHANGELOG.md). Read the [documentation](https://mudiambat13.github.io/ScientificLab/) or build it locally with `mkdocs serve`.
 
 ## Gallery
 
@@ -173,7 +172,7 @@ pip install scientificlab
 From source (development):
 
 ```bash
-git clone https://github.com/OWNER/ScientificLab.git
+git clone https://github.com/Mudiambat13/ScientificLab.git
 cd ScientificLab
 pip install -e ".[dev]"
 ```
@@ -290,8 +289,8 @@ Tests use known reference values (Vieta's relations, free fall of `g/2` metres i
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Issues and pull requests are welcome (templates are provided). Security reports: see [SECURITY.md](SECURITY.md).
+See [CONTRIBUTING.md](https://github.com/Mudiambat13/ScientificLab/blob/main/CONTRIBUTING.md). Issues and pull requests are welcome (templates are provided). Security reports: see [SECURITY.md](https://github.com/Mudiambat13/ScientificLab/blob/main/SECURITY.md).
 
 ## License
 
-[MIT](LICENSE)
+[MIT](https://github.com/Mudiambat13/ScientificLab/blob/main/LICENSE)
