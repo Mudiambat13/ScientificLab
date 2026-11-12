@@ -1,5 +1,6 @@
 [build-system]
-requires = ["hatchling>=1.27", "hatch-fancy-pypi-readme>=24.1"]
+# Hatchling 1.32+ emits Core Metadata 2.5, which Twine does not yet validate.
+requires = ["hatchling>=1.27,<1.32", "hatch-fancy-pypi-readme>=24.1"]
 build-backend = "hatchling.build"
 
 [project]
